@@ -3,7 +3,6 @@
 require('dotenv').config();
 
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const styleLoaderConfig = require('./webpack.styles.partial.js');
 const javascriptLoaderConfig = require('./webpack.javascript.partial.js');
@@ -40,17 +39,8 @@ module.exports = {
 		rules: []
 			.concat({ test: config.js_ext_regex, exclude: /node_modules/, use: javascriptLoaderConfig(config.js_superset) })
 			.concat(config.css_webpack ? { test: config.css_pre_ext, use: styleLoaderConfig(config.css_pre) } : null)
-			.filter((x) => x),
+			.filter(Boolean),
 	},
-	plugins: []
-		.concat(
-			config.html_webpack
-				? new HtmlWebpackPlugin({
-						template: './src/index.html',
-						filename: './index.html',
-				  })
-				: null,
-		)
-		.filter((x) => x),
+	plugins: [async () => await import('./webpack.html.partial.js')].filter(Boolean),
 	devtool: 'source-map', //change for production
 };
