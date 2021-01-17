@@ -1,9 +1,9 @@
 require('dotenv').config();
 
-module.exports = async () => {
+module.exports = () => {
 	let config = null;
-	if (process.env.HTML_WEBPACK) {
-		const HtmlWebpackPlugin = await import('html-webpack-plugin');
+	if (process.env.HTML_WEBPACK == 'yes') {
+		const HtmlWebpackPlugin = require('html-webpack-plugin');
 		config = new HtmlWebpackPlugin({
 			template: './src/index.html',
 			filename: './index.html',

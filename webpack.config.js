@@ -6,6 +6,7 @@ const path = require('path');
 
 const styleLoaderConfig = require('./webpack.styles.partial.js');
 const javascriptLoaderConfig = require('./webpack.javascript.partial.js');
+const htmlLoaderConfig = require('./webpack.html.partial');
 
 const getJavascriptRegex = (usesTypescript) => {
 	let typescript = usesTypescript == 'true';
@@ -38,9 +39,9 @@ module.exports = {
 	module: {
 		rules: []
 			.concat({ test: config.js_ext_regex, exclude: /node_modules/, use: javascriptLoaderConfig(config.js_superset) })
-			.concat(config.css_webpack ? { test: config.css_pre_ext, use: styleLoaderConfig(config.css_pre) } : null)
+			.concat(config.css_webpack == 'yes' ? { test: config.css_pre_ext, use: styleLoaderConfig(config.css_pre) } : null)
 			.filter(Boolean),
 	},
-	plugins: [async () => await import('./webpack.html.partial.js')].filter(Boolean),
+	plugins: [htmlLoaderConfig()].filter(Boolean),
 	devtool: 'source-map', //change for production
 };
