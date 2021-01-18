@@ -10,7 +10,10 @@ module.exports = (api) => {
 		case 'react': {
 			config = {
 				presets: ['@babel/preset-env', '@babel/preset-react'],
-				plugins: ['@babel/plugin-proposal-class-properties'],
+				plugins: []
+					.concat(process.env.CSS_PREPROCESSOR == "sc" ? "babel-plugin-styled-components" : null)
+					.concat('@babel/plugin-proposal-class-properties')
+					.filter(Boolean),
 			};
 			break;
 		}

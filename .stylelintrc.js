@@ -8,13 +8,14 @@
 //  				 "less.validate": false,
 //  				 "scss.validate": false,
 
-let hasProcessor = process.env.CSS_PREPROCESSOR != 'none';
+let preprocessor = process.env.CSS_PREPROCESSOR;
 
 module.exports = {
-	extends: ['stylelint-config-standard'],
+	extends: ['stylelint-config-standard'].concat(preprocessor == 'sc' ? "stylelint-config-styled-components" : null).filter(Boolean),
 	// per https://github.com/kristerkari/stylelint-scss
 	// stylelint-scss workds with less and similar preprocessor syntaxes
-	plugins: [hasProcessor ? 'stylelint-scss' : ''],
+	plugins: [preprocessor == "sass" ? 'stylelint-scss' : null].filter(Boolean),
+	processors: [].concat(preprocessor == 'sc' ? "stylelint-processor-styled-components" : null).filter(Boolean),
 	rules: {
 		indentation: 'tab',
 		'string-quotes': 'single',
