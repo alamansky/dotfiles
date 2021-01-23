@@ -3,6 +3,7 @@
 require('dotenv').config();
 
 const path = require('path');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const styleLoaderConfig = require('./webpack.styles.partial.js');
 const javascriptLoaderConfig = require('./webpack.javascript.partial.js');
@@ -42,6 +43,6 @@ module.exports = {
 			.concat(config.css_webpack == 'yes' ? { test: config.css_pre_ext, use: styleLoaderConfig(config.css_pre) } : null)
 			.filter(Boolean),
 	},
-	plugins: [htmlLoaderConfig()].filter(Boolean),
+	plugins: [htmlLoaderConfig(), new BundleAnalyzerPlugin()].filter(Boolean),
 	devtool: 'source-map', //change for production
 };
