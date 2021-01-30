@@ -1,4 +1,5 @@
-module.exports = (usesTypescript) => {
-	let typescript = usesTypescript == 'true';
-	return typescript ? ['babel-loader', 'ts-loader'] : ['babel-loader'];
+require('dotenv').config();
+
+module.exports = () => {
+	return process.env.TYPESCRIPT == 'yes' ? ['babel-loader', 'ts-loader'] : ['babel-loader'];
 };

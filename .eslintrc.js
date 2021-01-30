@@ -7,7 +7,7 @@
 require('dotenv').config();
 
 let react = process.env.JS_FRAMEWORK == 'react';
-let typescript = process.env.TYPESCRIPT == 'true';
+let typescript = process.env.TYPESCRIPT == 'yes';
 module.exports = {
 	root: true, //tells ESLint that the config file is located in the root directory
 	env: {
@@ -37,6 +37,7 @@ module.exports = {
 		.filter((x) => x), // installed plugins, optional "eslint-plugin-" prefix removed
 	rules: {
 		strict: 1,
+		'react/prop-types': 'off',
 		//'no-unused-vars': 'off',
 	},
 };

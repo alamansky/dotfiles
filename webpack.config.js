@@ -9,16 +9,15 @@ const styleLoaderConfig = require('./webpack.styles.partial.js');
 const javascriptLoaderConfig = require('./webpack.javascript.partial.js');
 const htmlLoaderConfig = require('./webpack.html.partial');
 
-const getJavascriptRegex = (usesTypescript) => {
-	let typescript = usesTypescript == 'true';
-	return typescript ? RegExp('.js$|.ts$|.tsx$') : RegExp('.js$|.jsx$');
+const getJavascriptRegex = (typescript) => {
+	return typescript == 'yes' ? RegExp('.js$|.ts$|.tsx$') : RegExp('.js$|.jsx$');
 };
 
 const config = {
 	entry_dir: process.env.ENTRY_DIR,
 	output_dir: process.env.OUTPUT_DIR,
 	js_framework: process.env.JS_FRAMEWORK,
-	js_superset: process.env.TYPESCRIPT,
+	typescript: process.env.TYPESCRIPT,
 	js_ext_regex: getJavascriptRegex(process.env.TYPESCRIPT),
 	js_ext: process.env.JS_EXT,
 	css_webpack: process.env.CSS_WEBPACK,
@@ -39,7 +38,7 @@ module.exports = {
 	},
 	module: {
 		rules: []
-			.concat({ test: config.js_ext_regex, exclude: /node_modules/, use: javascriptLoaderConfig(config.js_superset) })
+			.concat({ test: config.js_ext_regex, exclude: /node_modules/, use: javascriptLoaderConfig(config.typescript) })
 			.concat(config.css_webpack == 'yes' ? { test: config.css_pre_ext, use: styleLoaderConfig(config.css_pre) } : null)
 			.filter(Boolean),
 	},
